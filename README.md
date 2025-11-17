@@ -265,3 +265,4 @@ This project is open-source and available under the MIT License.
 - Cloudinary for image management
 - Prisma for database ORM
 - Neon for serverless PostgreSQL
+# Build timestamp: seg 17 nov 2025 08:00:45 -05
