@@ -63,7 +63,7 @@ export async function POST(request: Request) {
             }
         );
 
-        // TODO: Pegar userId real da sessão
+        // Buscar ou criar usuário
         let userId: string;
         
         if (session?.user?.email) {
@@ -71,7 +71,20 @@ export async function POST(request: Request) {
             const user = await prisma.user.findUnique({
                 where: { email: session.user.email }
             });
-            userId = user?.id || '';
+            
+            if (!user) {
+                // Se usuário autenticado não existe no banco, criar
+                const newUser = await prisma.user.create({
+                    data: {
+                        email: session.user.email,
+                        name: session.user.name || 'Usuário',
+                        password: 'oauth-user' // Usuários OAuth não têm senha
+                    }
+                });
+                userId = newUser.id;
+            } else {
+                userId = user.id;
+            }
         } else {
             // Criar ou buscar usuário temporário para desenvolvimento
             const tempUser = await prisma.user.upsert({
@@ -84,6 +97,11 @@ export async function POST(request: Request) {
                 }
             });
             userId = tempUser.id;
+        }
+        
+        // Validar userId antes de continuar
+        if (!userId) {
+            throw new Error('Erro ao obter ID do usuário');
         }
 
         // Processar tags
