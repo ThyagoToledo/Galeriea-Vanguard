@@ -18,20 +18,19 @@
                                                                                                                                                                                 -- 2. Criar índice único para email
                                                                                                                                                                                 CREATE UNIQUE INDEX IF NOT EXISTS "User_email_key" ON "User"("email");
 
-                                                                                                                                                                                -- 3. Criar tabela Artwork
-                                                                                                                                                                                CREATE TABLE IF NOT EXISTS "Artwork" (
-                                                                                                                                                                                    "id" TEXT NOT NULL,
-                                                                                                                                                                                    "title" TEXT NOT NULL,
-                                                                                                                                                                                    "description" TEXT,
-                                                                                                                                                                                    "imageUrl" TEXT NOT NULL,
-                                                                                                                                                                                    "imagePublicId" TEXT NOT NULL,
-                                                                                                                                                                                    "userId" TEXT NOT NULL,
-                                                                                                                                                                                    "views" INTEGER NOT NULL DEFAULT 0,
-                                                                                                                                                                                    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                                                                                                                                                                    CONSTRAINT "Artwork_pkey" PRIMARY KEY ("id")
-                                                                                                                                                                                );
-
-                                                                                                                                                                                -- 4. Criar foreign key Artwork -> User
+-- 3. Criar tabela Artwork
+CREATE TABLE IF NOT EXISTS "Artwork" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT,
+    "imageData" TEXT NOT NULL,
+    "mimeType" TEXT NOT NULL,
+    "fileSize" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
+    "views" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Artwork_pkey" PRIMARY KEY ("id")
+);                                                                                                                                                                                -- 4. Criar foreign key Artwork -> User
                                                                                                                                                                                 ALTER TABLE "Artwork" 
                                                                                                                                                                                 DROP CONSTRAINT IF EXISTS "Artwork_userId_fkey";
 
@@ -147,17 +146,29 @@
                                                                                                                                                                                 FOREIGN KEY ("artworkId") REFERENCES "Artwork"("id") 
                                                                                                                                                                                 ON DELETE RESTRICT ON UPDATE CASCADE;
 
-                                                                                                                                                                                -- ============================================
-                                                                                                                                                                                -- VERIFICAÇÃO (Execute após criar as tabelas)
-                                                                                                                                                                                -- ============================================
+-- ============================================
+-- VERIFICAÇÃO (Execute após criar as tabelas)
+-- ============================================
 
-                                                                                                                                                                                -- Listar todas as tabelas criadas
-                                                                                                                                                                                SELECT table_name 
-                                                                                                                                                                                FROM information_schema.tables 
-                                                                                                                                                                                WHERE table_schema = 'public' 
-                                                                                                                                                                                ORDER BY table_name;
+-- IMPORTANTE: Criar usuário temporário para desenvolvimento
+INSERT INTO "User" (id, email, name, password, "createdAt")
+VALUES (
+    'temp-user-galeria-vanguard',
+    'temp@galeriavanguard.com',
+    'Galeria Vanguard',
+    'temp-hash-development',
+    NOW()
+)
+ON CONFLICT (id) DO NOTHING;
 
-                                                                                                                                                                                -- Deve mostrar:
+-- Verificar se usuário foi criado
+SELECT id, email, name FROM "User" WHERE id = 'temp-user-galeria-vanguard';
+
+-- Listar todas as tabelas criadas
+SELECT table_name 
+FROM information_schema.tables 
+WHERE table_schema = 'public' 
+ORDER BY table_name;                                                                                                                                                                                -- Deve mostrar:
                                                                                                                                                                                 -- Artwork
                                                                                                                                                                                 -- ArtworkTag
                                                                                                                                                                                 -- Collection
@@ -165,4 +176,3 @@
                                                                                                                                                                                 -- Download
                                                                                                                                                                                 -- Tag
                                                                                                                                                                                 -- User
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
