@@ -49,20 +49,20 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </div>
 
             {/* Bottom Navigation Mobile */}
-            <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-black/90 backdrop-blur-xl md:hidden safe-area-inset-bottom">
-                <div className="mx-auto flex max-w-md items-center justify-around px-2 py-2">
+            <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-slate-950/80 backdrop-blur-lg md:hidden safe-area-inset-bottom">
+                <div className="mx-auto flex max-w-md items-center justify-around px-2 py-1.5">
                     {navItems.map((item) => {
                         const Icon = item.icon;
-                        const isActive = pathname === item.href;
+                        const isActive = pathname.startsWith(item.href);
                         return (
                             <Link
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    'flex flex-col items-center gap-1 rounded-lg px-3 py-2 transition-all min-w-[60px]',
+                                    'flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 transition-all min-w-[60px] active:scale-95',
                                     isActive
                                         ? 'text-primary-300'
-                                        : 'text-white/60 active:text-white/80 active:scale-95'
+                                        : 'text-white/60 hover:text-white/80'
                                 )}
                             >
                                 <Icon className={cn('h-5 w-5', isActive && 'fill-primary-300/20')} />

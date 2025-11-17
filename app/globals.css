@@ -30,19 +30,15 @@ body {
     filter: blur(80px);
 }
 
-/* Remover scroll horizontal em mobile */
-@media (max-width: 768px) {
-    body {
-        overflow-x: hidden;
-    }
-    
-    /* Suavizar transições em mobile */
-    * {
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    /* Melhorar scroll em iOS */
-    body {
-        -webkit-overflow-scrolling: touch;
-    }
+/* Melhorias para Mobile */
+html {
+    /* Remove o highlight azul/cinza ao tocar em links */
+    -webkit-tap-highlight-color: transparent;
+    /* Scroll suave em iOS */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Adiciona padding na safe-area do iOS para a barra de navegação inferior */
+.safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
 }
