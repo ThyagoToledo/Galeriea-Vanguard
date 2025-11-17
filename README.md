@@ -254,7 +254,7 @@ This project is open-source and available under the MIT License.
 
 ## Contact
 
-- GitHub: [@ThyagoToledo](https://github.com/ThyagoToledo)
+- GitHub: [@alerandremoraes266-lang](https://github.com/alerandremoraes266-lang)
 - Project Repository: [Galeriea-Vanguard](https://github.com/ThyagoToledo/Galeriea-Vanguard)
 - Live Demo: [galeriea-vanguard.vercel.app](https://galeriea-vanguard.vercel.app)
 
