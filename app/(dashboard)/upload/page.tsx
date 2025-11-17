@@ -43,19 +43,37 @@ export default function UploadPage() {
             setError('Selecione uma imagem');
             return;
         }
+        if (!title.trim()) {
+            setError('Digite um título para a obra');
+            return;
+        }
 
         setLoading(true);
         setError('');
 
         try {
-            // TODO: Implementar upload real para Cloudinary
-            // Por enquanto, apenas simulando
-            await new Promise((resolve) => setTimeout(resolve, 1500));
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('title', title);
+            if (description) formData.append('description', description);
+            if (tags) formData.append('tags', tags);
 
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Erro ao fazer upload');
+            }
+
+            // Sucesso - redirecionar para o feed
             router.push('/feed');
             router.refresh();
         } catch (err) {
-            setError('Erro ao fazer upload. Tente novamente.');
+            setError(err instanceof Error ? err.message : 'Erro ao fazer upload. Tente novamente.');
         } finally {
             setLoading(false);
         }
