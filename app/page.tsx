@@ -40,8 +40,8 @@ export default function Home() {
                 {[
                     {
                         title: 'Upload inteligente',
-                        description: 'Validação local, otimização automática e armazenamento seguro no Cloudinary.',
-                        badge: 'Cloud-native'
+                        description: 'Armazenamento direto no banco de dados PostgreSQL com limite de 5MB por imagem.',
+                        badge: 'Database'
                     },
                     {
                         title: 'Descoberta avançada',

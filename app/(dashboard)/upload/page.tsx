@@ -23,8 +23,8 @@ export default function UploadPage() {
                 setError('Por favor, selecione apenas arquivos de imagem');
                 return;
             }
-            if (selectedFile.size > 10 * 1024 * 1024) {
-                setError('Arquivo muito grande. Tamanho máximo: 10MB');
+            if (selectedFile.size > 5 * 1024 * 1024) {
+                setError('Arquivo muito grande. Tamanho máximo: 5MB');
                 return;
             }
             setFile(selectedFile);
@@ -110,7 +110,7 @@ export default function UploadPage() {
                             <div className="text-center">
                                 <p className="text-base sm:text-lg font-semibold">Clique para selecionar uma imagem</p>
                                 <p className="mt-1 text-xs sm:text-sm text-white/60">
-                                    PNG, JPG, GIF até 10MB
+                                    PNG, JPG, GIF até 5MB
                                 </p>
                             </div>
                             <input

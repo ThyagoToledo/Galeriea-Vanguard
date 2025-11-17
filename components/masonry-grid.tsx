@@ -4,7 +4,7 @@ export type ArtworkSummary = {
     id: string;
     title: string;
     artist: string;
-    imageUrl: string;
+    imageData: string;
     tags: string[];
     downloads: number;
     views: number;
