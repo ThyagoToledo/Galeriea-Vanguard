@@ -165,7 +165,7 @@ export async function POST(request: Request) {
             );
         }
 
-        // Log detalhado do erro
+        // Log detalhado do erro para debugging
         console.error('❌ Upload error:', error);
         
         const errorObj = error as any;
