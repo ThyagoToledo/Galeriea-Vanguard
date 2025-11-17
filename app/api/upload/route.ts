@@ -55,42 +55,45 @@ export async function POST(request: Request) {
         // Buscar ou criar usuário
         let userId: string;
         
-        if (session?.user?.email) {
-            // Buscar usuário autenticado
-            const user = await prisma.user.findUnique({
-                where: { email: session.user.email }
-            });
-            
-            if (!user) {
-                // Se usuário autenticado não existe no banco, criar
-                const newUser = await prisma.user.create({
-                    data: {
+        try {
+            if (session?.user?.email) {
+                // Buscar ou criar usuário autenticado
+                const user = await prisma.user.upsert({
+                    where: { email: session.user.email },
+                    update: {},
+                    create: {
                         email: session.user.email,
                         name: session.user.name || 'Usuário',
-                        password: 'oauth-user' // Usuários OAuth não têm senha
+                        password: 'oauth-user'
                     }
                 });
-                userId = newUser.id;
-            } else {
                 userId = user.id;
+            } else {
+                // Criar ou buscar usuário temporário
+                const tempUser = await prisma.user.upsert({
+                    where: { email: 'temp@galeriavanguard.com' },
+                    update: {},
+                    create: {
+                        email: 'temp@galeriavanguard.com',
+                        name: 'Galeria Vanguard',
+                        password: 'temp-hash-' + Date.now()
+                    }
+                });
+                userId = tempUser.id;
             }
-        } else {
-            // Criar ou buscar usuário temporário para desenvolvimento
-            const tempUser = await prisma.user.upsert({
-                where: { email: 'temp@user.com' },
-                update: {},
-                create: {
-                    email: 'temp@user.com',
-                    name: 'Usuário Temporário',
-                    password: 'temp-password-hash'
-                }
-            });
-            userId = tempUser.id;
+        } catch (userError) {
+            console.error('❌ Error creating/finding user:', userError);
+            return NextResponse.json(
+                { error: 'Erro ao processar usuário. Tente novamente.' },
+                { status: 500 }
+            );
         }
         
-        // Validar userId antes de continuar
         if (!userId) {
-            throw new Error('Erro ao obter ID do usuário');
+            return NextResponse.json(
+                { error: 'Erro ao obter ID do usuário' },
+                { status: 500 }
+            );
         }
 
         // Processar tags
