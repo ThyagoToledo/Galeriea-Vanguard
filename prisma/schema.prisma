@@ -25,8 +25,9 @@ model Artwork {
   id            String             @id @default(cuid())
   title         String
   description   String?
-  imageUrl      String
-  imagePublicId String
+  imageData     String             @db.Text // Base64 encoded image
+  mimeType      String             // image/jpeg, image/png, etc
+  fileSize      Int                // Size in bytes
   userId        String
   user          User               @relation(fields: [userId], references: [id])
   tags          ArtworkTag[]

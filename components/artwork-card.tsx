@@ -6,7 +6,7 @@ export type ArtworkCardProps = {
         id: string;
         title: string;
         artist: string;
-        imageUrl: string;
+        imageData: string;
         tags: string[];
         downloads: number;
         views: number;
@@ -18,11 +18,12 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
         <figure className="mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg transition-transform active:scale-[0.98] sm:mb-4 sm:rounded-3xl">
             <div className="relative aspect-[3/4]">
                 <Image 
-                    src={artwork.imageUrl} 
+                    src={artwork.imageData} 
                     alt={artwork.title} 
                     fill 
                     className="object-cover" 
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    unoptimized
                 />
             </div>
             <figcaption className="flex flex-col gap-2.5 p-3 sm:gap-3 sm:p-4">

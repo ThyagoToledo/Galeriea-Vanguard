@@ -10,7 +10,7 @@ type ArtworkSummary = {
     id: string;
     title: string;
     artist: string;
-    imageUrl: string;
+    imageData: string;
     tags: string[];
     downloads: number;
     views: number;
@@ -46,7 +46,7 @@ async function getArtworks(): Promise<ArtworkSummary[]> {
                 id: artwork.id,
                 title: artwork.title,
                 artist: artwork.user.name,
-                imageUrl: artwork.imageUrl,
+                imageData: artwork.imageData,
                 tags: artwork.tags.map((t) => t.tag.name),
                 downloads: 0,
                 views: artwork.views,

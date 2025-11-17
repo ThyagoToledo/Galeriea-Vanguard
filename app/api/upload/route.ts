@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { cloudinary } from '@/lib/cloudinary';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -17,11 +16,6 @@ export async function POST(request: Request) {
     try {
         // Verificar autenticação
         const session = await getServerSession(authOptions);
-
-        // TODO: Descomentar quando auth estiver funcionando
-        // if (!session?.user?.email) {
-        //     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 });
-        // }
 
         const formData = await request.formData();
         const file = formData.get('image');
@@ -45,23 +39,18 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Apenas imagens são permitidas' }, { status: 400 });
         }
 
-        if (file.size > 10 * 1024 * 1024) {
-            return NextResponse.json({ error: 'Arquivo muito grande. Máximo: 10MB' }, { status: 400 });
+        // Limite de 5MB para base64
+        const maxSize = 5 * 1024 * 1024;
+        if (file.size > maxSize) {
+            return NextResponse.json({ 
+                error: `Arquivo muito grande. Máximo: ${maxSize / (1024 * 1024)}MB` 
+            }, { status: 400 });
         }
 
-        // Upload para Cloudinary
+        // Converter para base64
         const arrayBuffer = await file.arrayBuffer();
         const base64 = Buffer.from(arrayBuffer).toString('base64');
-        const uploadResult = await cloudinary.uploader.upload(
-            `data:${file.type};base64,${base64}`,
-            {
-                folder: 'galeria-vanguard',
-                transformation: [
-                    { width: 2000, height: 2000, crop: 'limit' },
-                    { quality: 'auto', fetch_format: 'auto' }
-                ]
-            }
-        );
+        const imageData = `data:${file.type};base64,${base64}`;
 
         // Buscar ou criar usuário
         let userId: string;
@@ -122,13 +111,14 @@ export async function POST(request: Request) {
             })
         );
 
-        // Criar artwork
+        // Criar artwork com imagem em base64
         const artwork = await prisma.artwork.create({
             data: {
                 title: validatedData.title,
                 description: validatedData.description || null,
-                imageUrl: uploadResult.secure_url,
-                imagePublicId: uploadResult.public_id,
+                imageData,
+                mimeType: file.type,
+                fileSize: file.size,
                 userId,
                 tags: {
                     create: tags.map((tag: TagType) => ({
@@ -152,7 +142,8 @@ export async function POST(request: Request) {
             artwork: {
                 id: artwork.id,
                 title: artwork.title,
-                imageUrl: artwork.imageUrl,
+                mimeType: artwork.mimeType,
+                fileSize: artwork.fileSize,
                 tags: artwork.tags.map((t: { tag: { name: string } }) => t.tag.name)
             }
         }, { status: 201 });
@@ -178,8 +169,6 @@ export async function POST(request: Request) {
         
         if (errorObj?.message?.includes('Prisma')) {
             errorMessage = 'Erro de conexão com banco de dados. Verifique suas credenciais do Neon.';
-        } else if (errorObj?.message?.includes('Cloudinary') || errorObj?.message?.includes('api_key')) {
-            errorMessage = 'Erro no Cloudinary. Verifique suas credenciais de upload.';
         } else if (errorObj?.message) {
             errorMessage = errorObj.message;
         }
@@ -187,7 +176,7 @@ export async function POST(request: Request) {
         return NextResponse.json(
             { 
                 error: errorMessage,
-                details: process.env.NODE_ENV === 'development' ? error?.message : undefined
+                details: process.env.NODE_ENV === 'development' ? errorObj?.message : undefined
             },
             { status: 500 }
         );

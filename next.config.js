@@ -4,13 +4,13 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'res.cloudinary.com'
-            },
-            {
-                protocol: 'https',
                 hostname: 'images.unsplash.com'
             }
-        ]
+        ],
+        // Permitir data URIs para base64
+        dangerouslyAllowSVG: true,
+        contentDispositionType: 'attachment',
+        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     }
 };
 

@@ -15,7 +15,31 @@ const artworkSchema = z.object({
 export async function GET() {
     const artworks = await prisma.artwork.findMany({
         orderBy: { createdAt: 'desc' },
-        include: { tags: { include: { tag: true } }, user: true }
+        include: { tags: { include: { tag: true } }, user: true },
+        select: {
+            id: true,
+            title: true,
+            description: true,
+            imageData: true,
+            mimeType: true,
+            fileSize: true,
+            views: true,
+            createdAt: true,
+            userId: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    avatar: true
+                }
+            },
+            tags: {
+                include: {
+                    tag: true
+                }
+            }
+        }
     });
     return NextResponse.json(artworks);
 }
