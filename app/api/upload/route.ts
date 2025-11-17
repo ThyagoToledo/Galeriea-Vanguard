@@ -54,37 +54,62 @@ export async function POST(request: Request) {
 
         // Buscar ou criar usuário
         let userId: string;
+        const TEMP_USER_ID = 'temp-user-galeria-vanguard';
         
         try {
             if (session?.user?.email) {
-                // Buscar ou criar usuário autenticado
-                const user = await prisma.user.upsert({
-                    where: { email: session.user.email },
-                    update: {},
-                    create: {
-                        email: session.user.email,
-                        name: session.user.name || 'Usuário',
-                        password: 'oauth-user'
-                    }
+                // Buscar usuário autenticado
+                let user = await prisma.user.findUnique({
+                    where: { email: session.user.email }
                 });
+                
+                // Se não existir, criar
+                if (!user) {
+                    user = await prisma.user.create({
+                        data: {
+                            email: session.user.email,
+                            name: session.user.name || 'Usuário',
+                            password: 'oauth-user'
+                        }
+                    });
+                }
                 userId = user.id;
             } else {
-                // Criar ou buscar usuário temporário
-                const tempUser = await prisma.user.upsert({
-                    where: { email: 'temp@galeriavanguard.com' },
-                    update: {},
-                    create: {
-                        email: 'temp@galeriavanguard.com',
-                        name: 'Galeria Vanguard',
-                        password: 'temp-hash-' + Date.now()
-                    }
+                // Buscar usuário temporário fixo
+                let tempUser = await prisma.user.findUnique({
+                    where: { id: TEMP_USER_ID }
                 });
+                
+                // Se não existir, tentar criar (pode falhar, mas não importa)
+                if (!tempUser) {
+                    try {
+                        tempUser = await prisma.user.create({
+                            data: {
+                                id: TEMP_USER_ID,
+                                email: 'temp@galeriavanguard.com',
+                                name: 'Galeria Vanguard',
+                                password: 'temp-hash-development'
+                            }
+                        });
+                    } catch (createError) {
+                        // Se falhar ao criar (race condition), buscar novamente
+                        tempUser = await prisma.user.findUnique({
+                            where: { id: TEMP_USER_ID }
+                        });
+                    }
+                }
+                
+                if (!tempUser) {
+                    throw new Error('Usuário temporário não encontrado no banco. Execute o script: scripts/seed-temp-user.sql');
+                }
+                
                 userId = tempUser.id;
             }
         } catch (userError) {
             console.error('❌ Error creating/finding user:', userError);
+            const errorMsg = userError instanceof Error ? userError.message : 'Erro ao processar usuário';
             return NextResponse.json(
-                { error: 'Erro ao processar usuário. Tente novamente.' },
+                { error: errorMsg },
                 { status: 500 }
             );
         }
