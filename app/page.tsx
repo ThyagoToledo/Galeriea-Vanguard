@@ -2,19 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { MasonryGrid } from '@/components/masonry-grid';
 import { UploadModal } from '@/components/upload-modal';
 import { Button } from '@/components/ui/button';
-
-const mockArtworks = Array.from({ length: 8 }).map((_, index) => ({
-    id: `mock-${index}`,
-    title: `Arte Generativa #${index + 1}`,
-    imageUrl: `https://images.unsplash.com/photo-15${index}71924696-41fa8bca1c3e?auto=format&fit=crop&w=600&q=80`,
-    artist: index % 2 === 0 ? 'Ava Mendes' : 'Noah Almeida',
-    tags: ['generativo', 'aquarela', 'vanguard'],
-    downloads: 180 + index * 7,
-    views: 1200 + index * 25
-}));
 
 export default function Home() {
     return (
@@ -45,19 +34,6 @@ export default function Home() {
                         <Link href="#recursos">Explorar recursos</Link>
                     </Button>
                 </div>
-            </section>
-
-            <section className="mx-auto mt-20 max-w-6xl" id="galeria">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <p className="text-sm uppercase tracking-widest text-primary-300">Galeria viva</p>
-                        <h2 className="text-3xl font-semibold">Trending da semana</h2>
-                    </div>
-                    <Button asChild variant="outline">
-                        <Link href="/dashboard/feed">Ver dashboard</Link>
-                    </Button>
-                </div>
-                <MasonryGrid artworks={mockArtworks} />
             </section>
 
             <section className="mx-auto mt-24 grid max-w-5xl gap-8 rounded-3xl border border-white/10 bg-white/5 p-10 text-left md:grid-cols-3" id="recursos">

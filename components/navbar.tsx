@@ -13,18 +13,17 @@ export function Navbar() {
             </Link>
 
             <nav className="hidden items-center gap-6 text-sm text-white/70 md:flex">
-                <Link href="#galeria">Galeria</Link>
-                <Link href="#recursos">Recursos</Link>
-                <Link href="/roadmap">Roadmap</Link>
-                <Link href="/docs">Docs API</Link>
+                <Link href="/feed" className="hover:text-white transition-colors">Feed</Link>
+                <Link href="#recursos" className="hover:text-white transition-colors">Recursos</Link>
+                <Link href="https://github.com/ThyagoToledo/Galeriea-Vanguard" target="_blank" className="hover:text-white transition-colors">GitHub</Link>
             </nav>
 
             <div className="flex items-center gap-3">
-                <Button variant="ghost" className="hidden text-white/80 md:inline-flex">
-                    Entrar
+                <Button asChild variant="ghost" className="hidden text-white/80 md:inline-flex">
+                    <Link href="/login">Entrar</Link>
                 </Button>
-                <Button>
-                    Criar conta
+                <Button asChild>
+                    <Link href="/register">Criar conta</Link>
                 </Button>
                 <Button variant="ghost" className="md:hidden">
                     <Menu className="h-5 w-5" />
