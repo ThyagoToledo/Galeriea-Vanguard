@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String      @id @default(cuid())
+  name        String
+  email       String      @unique
+  password    String
+  avatar      String?
+  bio         String?
+  createdAt   DateTime    @default(now())
+  artworks    Artwork[]
+  collections Collection[]
+  downloads   Download[]
+}
+
+model Artwork {
+  id            String             @id @default(cuid())
+  title         String
+  description   String?
+  imageUrl      String
+  imagePublicId String
+  userId        String
+  user          User               @relation(fields: [userId], references: [id])
+  tags          ArtworkTag[]
+  collections   CollectionArtwork[]
+  downloads     Download[]
+  views         Int                @default(0)
+  createdAt     DateTime           @default(now())
+}
+
+model Tag {
+  id       String      @id @default(cuid())
+  name     String      @unique
+  slug     String      @unique
+  artworks ArtworkTag[]
+}
+
+model ArtworkTag {
+  artworkId String
+  tagId     String
+  artwork   Artwork @relation(fields: [artworkId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id])
+  @@id([artworkId, tagId])
+}
+
+model Collection {
+  id          String              @id @default(cuid())
+  name        String
+  description String?
+  userId      String
+  user        User                @relation(fields: [userId], references: [id])
+  artworks    CollectionArtwork[]
+  isPublic    Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+}
+
+model CollectionArtwork {
+  collectionId String
+  artworkId    String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  artwork      Artwork    @relation(fields: [artworkId], references: [id])
+  addedAt      DateTime   @default(now())
+  @@id([collectionId, artworkId])
+}
+
+model Download {
+  id        String   @id @default(cuid())
+  userId    String
+  artworkId String
+  user      User     @relation(fields: [userId], references: [id])
+  artwork   Artwork  @relation(fields: [artworkId], references: [id])
+  createdAt DateTime @default(now())
+}
