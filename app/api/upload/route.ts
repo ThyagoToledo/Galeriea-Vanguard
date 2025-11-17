@@ -167,19 +167,21 @@ export async function POST(request: Request) {
 
         // Log detalhado do erro
         console.error('❌ Upload error:', error);
-        console.error('Error name:', error?.constructor?.name);
-        console.error('Error message:', error?.message);
-        console.error('Error stack:', error?.stack);
+        
+        const errorObj = error as any;
+        console.error('Error name:', errorObj?.constructor?.name);
+        console.error('Error message:', errorObj?.message);
+        console.error('Error stack:', errorObj?.stack);
 
         // Mensagem específica baseada no erro
         let errorMessage = 'Erro ao fazer upload';
         
-        if (error?.message?.includes('Prisma')) {
+        if (errorObj?.message?.includes('Prisma')) {
             errorMessage = 'Erro de conexão com banco de dados. Verifique suas credenciais do Neon.';
-        } else if (error?.message?.includes('Cloudinary') || error?.message?.includes('api_key')) {
+        } else if (errorObj?.message?.includes('Cloudinary') || errorObj?.message?.includes('api_key')) {
             errorMessage = 'Erro no Cloudinary. Verifique suas credenciais de upload.';
-        } else if (error?.message) {
-            errorMessage = error.message;
+        } else if (errorObj?.message) {
+            errorMessage = errorObj.message;
         }
 
         return NextResponse.json(
