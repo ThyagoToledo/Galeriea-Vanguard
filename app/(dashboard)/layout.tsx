@@ -18,9 +18,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
     return (
         <>
-            <div className="mx-auto flex min-h-[70vh] max-w-6xl gap-10 py-6 px-4 pb-24 md:py-12 md:pb-12">
+            <div className="mx-auto flex min-h-screen max-w-6xl gap-6 py-4 px-3 pb-20 md:gap-10 md:py-12 md:px-4 md:pb-12">
                 {/* Sidebar Desktop */}
-                <aside className="hidden w-64 flex-shrink-0 flex-col gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 md:flex">
+                <aside className="hidden w-64 flex-shrink-0 flex-col gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 md:flex sticky top-4 h-fit">
                     <p className="text-xs uppercase tracking-widest text-white/50">Painel</p>
                     <nav className="flex flex-col gap-2 text-sm text-white/70">
                         {navItems.map((item) => {
@@ -49,8 +49,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </div>
 
             {/* Bottom Navigation Mobile */}
-            <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-black/80 backdrop-blur-xl md:hidden">
-                <div className="mx-auto flex max-w-md items-center justify-around px-4 py-3">
+            <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-black/90 backdrop-blur-xl md:hidden safe-area-inset-bottom">
+                <div className="mx-auto flex max-w-md items-center justify-around px-2 py-2">
                     {navItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.href;
@@ -59,10 +59,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    'flex flex-col items-center gap-1 rounded-lg px-4 py-2 transition-colors',
+                                    'flex flex-col items-center gap-1 rounded-lg px-3 py-2 transition-all min-w-[60px]',
                                     isActive
                                         ? 'text-primary-300'
-                                        : 'text-white/60 active:text-white/80'
+                                        : 'text-white/60 active:text-white/80 active:scale-95'
                                 )}
                             >
                                 <Icon className={cn('h-5 w-5', isActive && 'fill-primary-300/20')} />

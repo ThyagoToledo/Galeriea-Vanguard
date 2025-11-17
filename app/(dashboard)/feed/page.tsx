@@ -64,35 +64,35 @@ export default async function FeedPage() {
     const artworks = await getArtworks();
 
     return (
-        <div>
-            <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="w-full">
+            <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <div>
-                    <p className="text-sm uppercase tracking-widest text-primary-200">Feed</p>
-                    <h1 className="text-3xl font-semibold">
+                    <p className="text-xs uppercase tracking-widest text-primary-200 sm:text-sm">Feed</p>
+                    <h1 className="text-2xl font-semibold sm:text-3xl">
                         {artworks.length > 0
                             ? `${artworks.length} obra${artworks.length > 1 ? 's' : ''} na galeria`
                             : 'Galeria Vanguard'}
                     </h1>
                 </div>
                 <UploadModal>
-                    <Button>Enviar obra</Button>
+                    <Button size="sm" className="sm:size-default">Enviar obra</Button>
                 </UploadModal>
             </div>
 
             {artworks.length > 0 ? (
-                <div className="mt-10 columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
+                <div className="mt-6 columns-1 gap-4 sm:mt-10 sm:columns-2 sm:gap-6 lg:columns-3 xl:columns-4">
                     {artworks.map((artwork) => (
                         <ArtworkCard key={artwork.id} artwork={artwork} />
                     ))}
                 </div>
             ) : (
-                <div className="mt-16 flex flex-col items-center justify-center gap-6 rounded-3xl border border-white/10 bg-white/5 p-16 text-center">
-                    <div className="rounded-full bg-primary-500/20 p-6">
-                        <Upload className="h-12 w-12 text-primary-300" />
+                <div className="mt-12 flex flex-col items-center justify-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-8 text-center sm:mt-16 sm:gap-6 sm:rounded-3xl sm:p-16">
+                    <div className="rounded-full bg-primary-500/20 p-4 sm:p-6">
+                        <Upload className="h-8 w-8 text-primary-300 sm:h-12 sm:w-12" />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-semibold">Nenhuma obra ainda</h2>
-                        <p className="mt-2 text-white/70">
+                        <h2 className="text-xl font-semibold sm:text-2xl">Nenhuma obra ainda</h2>
+                        <p className="mt-2 text-sm text-white/70 sm:text-base">
                             Seja o primeiro artista a compartilhar uma criação na Galeria Vanguard.
                         </p>
                     </div>
