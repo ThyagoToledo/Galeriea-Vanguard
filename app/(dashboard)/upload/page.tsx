@@ -85,31 +85,31 @@ export default function UploadPage() {
     }
 
     return (
-        <div>
-            <div className="mb-8">
-                <p className="text-sm uppercase tracking-widest text-primary-200">Upload</p>
-                <h1 className="text-3xl font-semibold">Compartilhe sua arte</h1>
-                <p className="mt-2 text-white/70">
+        <div className="max-w-3xl">
+            <div className="mb-6 sm:mb-8">
+                <p className="text-xs sm:text-sm uppercase tracking-widest text-primary-200">Upload</p>
+                <h1 className="text-2xl sm:text-3xl font-semibold">Compartilhe sua arte</h1>
+                <p className="mt-2 text-sm sm:text-base text-white/70">
                     Envie suas obras e compartilhe com a comunidade Vanguard
                 </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 {error && (
                     <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
                         {error}
                     </div>
                 )}
 
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+                <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-8">
                     {!preview ? (
-                        <label className="flex cursor-pointer flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-white/20 bg-white/5 p-16 transition-colors hover:border-primary-500/50 hover:bg-white/10">
-                            <div className="rounded-full bg-primary-500/20 p-6">
-                                <UploadIcon className="h-12 w-12 text-primary-300" />
+                        <label className="flex cursor-pointer flex-col items-center justify-center gap-3 sm:gap-4 rounded-2xl border-2 border-dashed border-white/20 bg-white/5 p-8 sm:p-16 transition-colors hover:border-primary-500/50 hover:bg-white/10">
+                            <div className="rounded-full bg-primary-500/20 p-4 sm:p-6">
+                                <UploadIcon className="h-8 w-8 sm:h-12 sm:w-12 text-primary-300" />
                             </div>
                             <div className="text-center">
-                                <p className="text-lg font-semibold">Clique para selecionar uma imagem</p>
-                                <p className="mt-1 text-sm text-white/60">
+                                <p className="text-base sm:text-lg font-semibold">Clique para selecionar uma imagem</p>
+                                <p className="mt-1 text-xs sm:text-sm text-white/60">
                                     PNG, JPG, GIF até 10MB
                                 </p>
                             </div>
@@ -125,9 +125,9 @@ export default function UploadPage() {
                             <button
                                 type="button"
                                 onClick={clearFile}
-                                className="absolute right-4 top-4 z-10 rounded-full bg-black/60 p-2 backdrop-blur transition-colors hover:bg-black/80"
+                                className="absolute right-2 top-2 sm:right-4 sm:top-4 z-10 rounded-full bg-black/60 p-2 backdrop-blur transition-colors hover:bg-black/80"
                             >
-                                <X className="h-5 w-5" />
+                                <X className="h-4 w-4 sm:h-5 sm:w-5" />
                             </button>
                             <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
                                 <Image
@@ -141,7 +141,7 @@ export default function UploadPage() {
                     )}
                 </div>
 
-                <div className="space-y-4 rounded-3xl border border-white/10 bg-white/5 p-8">
+                <div className="space-y-4 rounded-2xl sm:rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-8">
                     <label className="block text-sm">
                         Título da obra *
                         <input
@@ -150,7 +150,7 @@ export default function UploadPage() {
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Nome da sua criação"
                             required
-                            className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 focus:border-primary-500 focus:outline-none"
+                            className="mt-2 w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base focus:border-primary-500 focus:outline-none"
                         />
                     </label>
 
@@ -161,7 +161,7 @@ export default function UploadPage() {
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Conte sobre sua obra, técnicas usadas, inspirações..."
                             rows={4}
-                            className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 focus:border-primary-500 focus:outline-none"
+                            className="mt-2 w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base focus:border-primary-500 focus:outline-none"
                         />
                     </label>
 
@@ -172,12 +172,12 @@ export default function UploadPage() {
                             value={tags}
                             onChange={(e) => setTags(e.target.value)}
                             placeholder="digital, abstrato, colorido"
-                            className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 focus:border-primary-500 focus:outline-none"
+                            className="mt-2 w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base focus:border-primary-500 focus:outline-none"
                         />
                     </label>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <Button
                         type="submit"
                         disabled={loading || !file || !title}
