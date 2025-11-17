@@ -49,13 +49,13 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className="mx-auto flex min-h-[60vh] max-w-2xl flex-col justify-center gap-6 py-16">
+        <div className="mx-auto flex min-h-[60vh] w-full max-w-2xl flex-col justify-center gap-4 px-4 py-12 sm:gap-6 sm:py-16">
             <header className="text-center">
-                <p className="text-sm uppercase tracking-widest text-primary-200">Comece a criar</p>
-                <h1 className="mt-2 text-3xl font-semibold">Cadastre-se na comunidade Vanguard</h1>
-                <p className="mt-2 text-white/70">Ganhe seu perfil público, coleções customizadas e métricas em tempo real.</p>
+                <p className="text-xs uppercase tracking-widest text-primary-200 sm:text-sm">Comece a criar</p>
+                <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">Cadastre-se na comunidade Vanguard</h1>
+                <p className="mt-2 text-sm text-white/70 sm:text-base">Ganhe seu perfil público, coleções customizadas e métricas em tempo real.</p>
             </header>
-            <form onSubmit={handleSubmit} className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-8 md:grid-cols-2">
+            <form onSubmit={handleSubmit} className="grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 sm:rounded-3xl sm:p-8 md:grid-cols-2">
                 {error && (
                     <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200 md:col-span-2">
                         {error}
@@ -68,7 +68,7 @@ export default function RegisterPage() {
                         name="name"
                         placeholder="Ava Mendes"
                         required
-                        className="mt-1 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 focus:border-primary-500 focus:outline-none"
+                        className="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm focus:border-primary-500 focus:outline-none sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base"
                     />
                 </label>
                 <label className="text-sm md:col-span-2">
@@ -78,7 +78,7 @@ export default function RegisterPage() {
                         name="email"
                         placeholder="you@galeria.art"
                         required
-                        className="mt-1 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 focus:border-primary-500 focus:outline-none"
+                        className="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm focus:border-primary-500 focus:outline-none sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base"
                     />
                 </label>
                 <label className="text-sm">
@@ -89,7 +89,7 @@ export default function RegisterPage() {
                         placeholder="••••••••"
                         required
                         minLength={6}
-                        className="mt-1 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 focus:border-primary-500 focus:outline-none"
+                        className="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm focus:border-primary-500 focus:outline-none sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base"
                     />
                 </label>
                 <label className="text-sm">
@@ -100,10 +100,10 @@ export default function RegisterPage() {
                         placeholder="••••••••"
                         required
                         minLength={6}
-                        className="mt-1 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 focus:border-primary-500 focus:outline-none"
+                        className="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm focus:border-primary-500 focus:outline-none sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base"
                     />
                 </label>
-                <Button type="submit" className="md:col-span-2" disabled={loading}>
+                <Button type="submit" className="md:col-span-2" size="lg" disabled={loading}>
                     {loading ? 'Criando conta...' : 'Criar conta gratuita'}
                 </Button>
             </form>

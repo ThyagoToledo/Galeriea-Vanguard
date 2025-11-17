@@ -41,13 +41,13 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center gap-6 py-16">
+        <div className="mx-auto flex min-h-[60vh] w-full max-w-md flex-col justify-center gap-4 px-4 py-12 sm:gap-6 sm:py-16">
             <header className="text-center">
-                <p className="text-sm uppercase tracking-widest text-primary-200">Bem-vindo de volta</p>
-                <h1 className="mt-2 text-3xl font-semibold">Acesse seu ateliê digital</h1>
-                <p className="mt-2 text-white/70">Gerencie obras, coleções e acompanhe estatísticas em tempo real.</p>
+                <p className="text-xs uppercase tracking-widest text-primary-200 sm:text-sm">Bem-vindo de volta</p>
+                <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">Acesse seu ateliê digital</h1>
+                <p className="mt-2 text-sm text-white/70 sm:text-base">Gerencie obras, coleções e acompanhe estatísticas em tempo real.</p>
             </header>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/5 p-8">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 sm:rounded-3xl sm:p-8">
                 {error && (
                     <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
                         {error}
@@ -60,7 +60,7 @@ export default function LoginPage() {
                         name="email"
                         placeholder="voce@arte.com"
                         required
-                        className="mt-1 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 focus:border-primary-500 focus:outline-none"
+                        className="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm focus:border-primary-500 focus:outline-none sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base"
                     />
                 </label>
                 <label className="text-sm">
@@ -70,10 +70,10 @@ export default function LoginPage() {
                         name="password"
                         placeholder="••••••••"
                         required
-                        className="mt-1 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 focus:border-primary-500 focus:outline-none"
+                        className="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm focus:border-primary-500 focus:outline-none sm:rounded-2xl sm:px-4 sm:py-3 sm:text-base"
                     />
                 </label>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full" size="lg" disabled={loading}>
                     {loading ? 'Entrando...' : 'Entrar'}
                 </Button>
             </form>
